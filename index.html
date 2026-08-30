@@ -136,6 +136,22 @@
   }
   .referral-btn:hover{background:var(--gold-soft);}
 
+  .link-copy-box{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25);
+    border-radius:6px; padding:10px 10px 10px 14px;
+  }
+  .link-copy-box .link-text{
+    flex:1; font-size:12.5px; color:#fff; overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; font-family:monospace;
+  }
+  .copy-btn{
+    all:unset; cursor:pointer; flex-shrink:0;
+    background:var(--gold); color:var(--navy-deep); font-weight:700; font-size:12.5px;
+    padding:8px 14px; border-radius:5px; box-sizing:border-box;
+  }
+  .copy-btn:active{background:var(--gold-soft);}
+
   /* ---- timeline ---- */
   .timeline{position:relative; padding-left:22px;}
   .timeline::before{content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line);}
@@ -312,6 +328,20 @@
     border:1px dashed var(--line); border-radius:8px;
   }
 
+  .note-cta{
+    background:linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 55%, var(--teal) 130%);
+    border-radius:8px; padding:22px; margin-bottom:20px; color:#fff;
+  }
+  .note-cta .note-label{font-size:11px; font-weight:700; letter-spacing:0.08em; color:#f0dfa0; margin-bottom:8px;}
+  .note-cta .note-title{font-family:'Shippori Mincho', serif; font-size:16px; font-weight:700; margin-bottom:8px;}
+  .note-cta p{font-size:13px; color:rgba(255,255,255,0.85); margin-bottom:14px; line-height:1.7;}
+  .note-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--gold); color:var(--navy-deep); font-weight:700; font-size:13px;
+    padding:11px 20px; border-radius:6px; text-decoration:none;
+  }
+  .note-btn:hover{background:var(--gold-soft);}
+
   /* ---- column cards ---- */
   .col-card{
     background:#fff; border-left:3px solid var(--gold); border-radius:4px;
@@ -418,8 +448,16 @@
       <div class="referral-box">
         <div class="referral-title">友人紹介について</div>
         <p>就活は一人で進めるより、一緒に頑張れる仲間がいる方が、情報交換やモチベーション維持などの観点からメリットが大きく、活動のペースや通過率も上がっていきます。周りに就活で悩んでいる友人がいたら、ぜひ村田をご紹介ください。ご紹介いただいた方も、私が担当としてしっかりサポートします。</p>
-        <a class="referral-btn" href="https://qrtn.jp/699zg" target="_blank" rel="noopener">友人紹介はこちら</a>
-        <p style="margin-top:12px; margin-bottom:0; font-size:12px; color:rgba(255,255,255,0.75);">※ご登録が確認できましたら、村田から直接ご連絡させていただきます。</p>
+
+        <div class="link-copy-box">
+          <span class="link-text" id="referral-link-text">https://qrtn.jp/699zg</span>
+          <button class="copy-btn" id="referral-copy-btn" onclick="copyReferralLink()">コピー</button>
+        </div>
+
+        <a class="referral-btn" href="https://qrtn.jp/699zg" target="_blank" rel="noopener" style="margin-top:10px;">リンクを開く</a>
+
+        <p style="margin-top:14px;">こちらのリンクをコピーして友人に送っていただき、必要事項をご入力してもらってください。</p>
+        <p style="margin-bottom:0; font-size:12px; color:rgba(255,255,255,0.75);">＊登録が確認できましたら、担当からご連絡させていただきます。</p>
       </div>
     </div>
   </section>
@@ -953,6 +991,13 @@
         <p>市況感や就活まわりのトピックを、村田の視点で不定期に更新していきます。</p>
       </div>
 
+      <div class="note-cta">
+        <div class="note-label">NOTE更新中</div>
+        <div class="note-title">最新の記事はnoteで公開しています</div>
+        <p>市況感や採用動向など、タイムリーな内容はnote「芸能界出身CAの就活ノート」で随時更新しています。よければご覧ください。</p>
+        <a class="note-btn" href="https://note.com/mikadomkwr" target="_blank" rel="noopener">noteを見る</a>
+      </div>
+
       <!-- ▼▼ 新しい投稿はこのコメントのすぐ下に追加してください ▼▼ -->
       <!--
       <div class="post-card">
@@ -1033,6 +1078,26 @@
         b.classList.toggle('active', b === btn);
       });
     });
+  }
+  function copyReferralLink(){
+    var text = document.getElementById('referral-link-text').textContent;
+    var btn = document.getElementById('referral-copy-btn');
+    function showCopied(){
+      var original = btn.textContent;
+      btn.textContent = 'コピーしました';
+      setTimeout(function(){ btn.textContent = original; }, 1800);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(showCopied);
+    } else {
+      var tmp = document.createElement('textarea');
+      tmp.value = text;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand('copy');
+      document.body.removeChild(tmp);
+      showCopied();
+    }
   }
 </script>
 
