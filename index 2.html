@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>就活サポートサイト | 村田一豪</title>
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#132038;
+    --navy-deep:#0b1526;
+    --teal:#2d6a6a;
+    --teal-light:#4a8f8f;
+    --gold:#c9a961;
+    --gold-soft:#e4d3a3;
+    --paper:#f6f4ef;
+    --ink:#1f2530;
+    --ink-soft:#5a6270;
+    --line:rgba(19,32,56,0.12);
+    color-scheme:light only;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{background:#f6f4ef !important; color-scheme:light only;}
+  body{
+    background:var(--paper) !important;
+    color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif;
+    line-height:1.75;
+  }
+  a{color:inherit;}
+
+  /* ---- nav ---- */
+  .navbar{
+    position:sticky; top:0; z-index:50;
+    background:#0b1526;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:0 12px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    border-bottom:1px solid rgba(201,169,97,0.3);
+  }
+  .navbar::-webkit-scrollbar{display:none;}
+  .navbar button{
+    all:unset;
+    cursor:pointer;
+    flex-shrink:0;
+    color:#f4efe2;
+    font-size:13.5px;
+    font-weight:700;
+    padding:15px 12px;
+    white-space:nowrap;
+    border-bottom:2px solid transparent;
+  }
+  .navbar button:hover{color:var(--gold-soft);}
+  .navbar button.active{color:var(--gold-soft); border-bottom-color:var(--gold);}
+
+  /* ---- hero (in 自己紹介タブ内) ---- */
+  .hero{
+    background:linear-gradient(150deg, var(--navy-deep) 0%, var(--navy) 55%, var(--teal) 130%);
+    color:#fff;
+    padding:48px 24px 48px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:""; position:absolute; right:-60px; top:-60px;
+    width:260px; height:260px;
+    border:1px solid rgba(201,169,97,0.35);
+    border-radius:50%;
+  }
+  .hero-inner{max-width:780px; margin:0 auto; position:relative;}
+  .eyebrow{font-size:13px; letter-spacing:0.16em; color:#f0dfa0; font-weight:700; margin-bottom:16px;}
+  h1{
+    font-family:'Shippori Mincho', serif;
+    font-size:clamp(24px, 5vw, 32px);
+    font-weight:700; line-height:1.55; margin-bottom:14px;
+  }
+  .hero p{color:rgba(255,255,255,0.92); font-size:14.5px; max-width:540px;}
+  .advisor{margin-top:24px; display:flex; align-items:center; gap:12px; font-size:14px; color:rgba(255,255,255,0.9);}
+  .advisor-badge{
+    width:44px; height:44px; border-radius:50%; background:var(--gold); color:var(--navy-deep);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px;
+    font-family:'Shippori Mincho', serif; flex-shrink:0;
+  }
+
+  main{max-width:780px; margin:0 auto; padding:0 24px;}
+
+  /* ---- tab sections ---- */
+  .tab-section{display:none;}
+  .tab-section.active{display:block;}
+  .tab-section > .inner{padding:44px 0;}
+
+  .sec-head{margin-bottom:28px;}
+  .sec-head .eyebrow2{font-size:12px; letter-spacing:0.14em; color:var(--teal); font-weight:700; margin-bottom:8px;}
+  .sec-head h2{font-family:'Shippori Mincho', serif; font-size:24px; color:var(--navy); font-weight:700;}
+  .sec-head p{font-size:13.5px; color:var(--ink-soft); margin-top:8px;}
+
+  /* ---- profile (自己紹介) ---- */
+  .profile-body{padding:0 24px 60px;}
+  .profile-block{margin-bottom:32px;}
+  .profile-block h3{font-family:'Shippori Mincho', serif; font-size:17px; color:var(--navy); margin-bottom:10px; border-left:3px solid var(--gold); padding-left:10px;}
+  .profile-block p{font-size:14px; color:var(--ink-soft);}
+  .history-list{list-style:none;}
+  .history-list li{
+    display:flex; gap:14px; padding:12px 0; border-bottom:1px dashed var(--line); font-size:13.5px;
+  }
+  .history-list li:last-child{border-bottom:none;}
+  .history-list .year{flex-shrink:0; width:88px; font-weight:700; color:var(--teal);}
+  .history-list .desc{color:var(--ink-soft);}
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+  .tag-row span{
+    background:#fff; border:1px solid var(--line); border-radius:20px;
+    padding:6px 14px; font-size:12.5px; font-weight:500; color:var(--navy);
+    box-shadow:0 1px 2px rgba(19,32,56,0.05);
+  }
+  .cta-box{
+    background:#fff; border-left:3px solid var(--gold); border-radius:6px;
+    padding:20px; box-shadow:0 1px 3px rgba(19,32,56,0.06); font-size:13.5px; color:var(--ink-soft);
+  }
+
+  .referral-box{
+    margin-top:20px; background:linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+    border-radius:8px; padding:22px; color:#fff;
+  }
+  .referral-box .referral-title{font-family:'Shippori Mincho', serif; font-size:16px; font-weight:700; margin-bottom:8px;}
+  .referral-box p{font-size:13px; color:rgba(255,255,255,0.85); margin-bottom:14px; line-height:1.7;}
+  .referral-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--gold); color:var(--navy-deep); font-weight:700; font-size:13px;
+    padding:11px 20px; border-radius:6px; text-decoration:none;
+  }
+  .referral-btn:hover{background:var(--gold-soft);}
+
+  .link-copy-box{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25);
+    border-radius:6px; padding:10px 10px 10px 14px;
+  }
+  .link-copy-box .link-text{
+    flex:1; font-size:12.5px; color:#fff; overflow:hidden; text-overflow:ellipsis;
+    white-space:nowrap; font-family:monospace;
+  }
+  .copy-btn{
+    all:unset; cursor:pointer; flex-shrink:0;
+    background:var(--gold); color:var(--navy-deep); font-weight:700; font-size:12.5px;
+    padding:8px 14px; border-radius:5px; box-sizing:border-box;
+  }
+  .copy-btn:active{background:var(--gold-soft);}
+
+  /* ---- timeline ---- */
+  .timeline{position:relative; padding-left:22px;}
+  .timeline::before{content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line);}
+  .tl-item{position:relative; padding-bottom:26px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:""; position:absolute; left:-22px; top:4px; width:11px; height:11px;
+    border-radius:50%; background:var(--gold); border:2px solid #fff; box-shadow:0 0 0 1px var(--gold);
+  }
+  .tl-time{font-size:12px; font-weight:700; color:var(--teal); letter-spacing:0.03em; margin-bottom:4px;}
+  .tl-title{font-weight:700; font-size:15px; color:var(--navy); margin-bottom:4px;}
+  .tl-desc{font-size:13.5px; color:var(--ink-soft);}
+
+  /* ---- grid cards ---- */
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:520px){.grid2{grid-template-columns:1fr;}}
+  .es-card{
+    background:#fff; border-radius:6px; padding:16px 18px;
+    box-shadow:0 1px 3px rgba(19,32,56,0.06); border-top:3px solid var(--teal);
+  }
+  .es-card .q-title{font-weight:700; font-size:14px; color:var(--navy); margin-bottom:6px;}
+  .es-card .q-tip{font-size:13px; color:var(--ink-soft);}
+
+  /* ---- checklist ---- */
+  .checklist{list-style:none;}
+  .checklist li{
+    display:flex; gap:10px; align-items:flex-start;
+    font-size:13.5px; padding:10px 0; border-bottom:1px dashed var(--line);
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{
+    content:"✓"; font-weight:700; flex-shrink:0;
+    width:18px; height:18px; border-radius:50%; background:var(--navy);
+    color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:11px;
+  }
+
+  /* ---- framework box ---- */
+  .frame-box{background:#fff; border-radius:6px; padding:20px; box-shadow:0 1px 3px rgba(19,32,56,0.06); margin-bottom:16px;}
+  .frame-box h3{font-family:'Shippori Mincho', serif; font-size:16px; color:var(--navy); margin-bottom:10px;}
+  .frame-steps{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px;}
+  .frame-steps span{
+    background:var(--paper); border:1px solid var(--line); border-radius:20px;
+    padding:5px 12px; font-size:12.5px; font-weight:500; color:var(--navy);
+  }
+  .frame-box p{font-size:13px; color:var(--ink-soft);}
+
+  .flow-list{list-style:none; counter-reset:flow;}
+  .flow-list li{position:relative; padding:8px 0 8px 28px; border-bottom:1px dashed var(--line);}
+  .flow-list li:last-child{border-bottom:none;}
+  .flow-list li::before{
+    counter-increment:flow; content:counter(flow);
+    position:absolute; left:0; top:8px; width:18px; height:18px; border-radius:50%;
+    background:var(--navy); color:var(--gold); font-size:10.5px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .flow-list .flow-title{font-weight:700; font-size:13px; color:var(--navy); margin-bottom:2px;}
+  .flow-list .flow-desc{font-size:12px; color:var(--ink-soft);}
+  .flow-list .flow-example{font-size:11.5px; color:var(--teal); margin-top:3px;}
+
+  .chip-flow{display:flex; flex-wrap:wrap; align-items:center; gap:6px 4px; margin:6px 0 4px;}
+  .chip-flow .chip{
+    background:var(--paper); border:1px solid var(--line); border-radius:20px;
+    padding:6px 12px; font-size:12px; font-weight:700; color:var(--navy); white-space:nowrap;
+  }
+  .chip-flow .arrow{color:var(--gold); font-weight:700; font-size:12px;}
+
+  .vflow{display:flex; flex-direction:column; align-items:stretch; gap:2px; margin:6px 0 4px;}
+  .vflow .cell{display:flex; align-items:baseline; gap:8px; padding:3px 2px;}
+  .vflow .cell .n{
+    flex-shrink:0; width:18px; height:18px; border-radius:50%;
+    background:var(--navy); color:var(--gold); font-size:10.5px; font-weight:700;
+    display:inline-flex; align-items:center; justify-content:center;
+    transform:translateY(2px);
+  }
+  .vflow .cell .t{font-size:13px; font-weight:700; color:var(--navy);}
+  .vflow .arrow-down{padding-left:9px; color:var(--gold); font-size:13px; font-weight:700; line-height:1;}
+
+  .rank-table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:4px;}
+  .rank-table th, .rank-table td{padding:10px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
+  .rank-table th{color:var(--navy); font-size:11px; letter-spacing:0.03em;}
+  .rank-table td:last-child{color:var(--ink-soft);}
+  .rank-badge{
+    display:inline-block; min-width:24px; padding:0 4px; height:22px; border-radius:4px;
+    background:var(--gold); color:var(--navy-deep); font-weight:700; font-size:11px;
+    text-align:center; line-height:22px;
+  }
+  .rank-badge.ng{background:#e2e6ef; color:var(--ink-soft);}
+
+  .qa-item{margin-bottom:14px;}
+  .qa-item:last-child{margin-bottom:0;}
+  .qa-item .qa-q{font-weight:700; font-size:13.5px; color:var(--navy); margin-bottom:4px;}
+  .qa-item .qa-a{font-size:13px; color:var(--ink-soft);}
+
+  .script-box{background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:16px 18px; margin-top:8px;}
+  .script-label{font-size:11px; font-weight:700; color:var(--teal); letter-spacing:0.04em; margin-bottom:10px;}
+  .script-text{font-size:13.5px; color:var(--ink); line-height:2;}
+  .blank{color:var(--navy); font-weight:700; background:var(--gold-soft); padding:0 4px; border-radius:3px;}
+  .step-tag{color:var(--ink); font-weight:700; background:var(--gold-soft); padding:0 6px; border-radius:3px;}
+  .sub-label{font-weight:700; font-size:12.5px; color:var(--navy); margin:14px 0 6px;}
+
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:14px 0;}
+  @media (max-width:560px){.stat-grid{grid-template-columns:1fr;}}
+  .stat-card{background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:16px 10px; text-align:center;}
+  .stat-card .num{font-family:'Shippori Mincho', serif; font-size:21px; font-weight:700; color:var(--navy);}
+  .stat-card .label{font-size:12px; color:var(--ink-soft); margin-top:4px;}
+  .stat-card .src{font-size:10.5px; color:var(--ink-soft); opacity:0.7; margin-top:3px;}
+
+  .bar-chart{margin:10px 0 4px;}
+  .bar-row{margin-bottom:14px;}
+  .bar-row:last-child{margin-bottom:0;}
+  .bar-row .bar-label{display:flex; justify-content:space-between; align-items:baseline; font-size:12.5px; color:var(--navy); font-weight:700; margin-bottom:5px;}
+  .bar-row .bar-label span:last-child{color:var(--teal); font-weight:700;}
+  .bar-track{background:var(--line); border-radius:5px; height:14px; overflow:hidden;}
+  .bar-fill{height:100%; border-radius:5px; background:linear-gradient(90deg, var(--teal), var(--gold));}
+  .bar-fill.alt{background:linear-gradient(90deg, var(--navy), var(--teal-light));}
+  .chart-note{font-size:11px; color:var(--ink-soft); margin-top:8px;}
+
+  .todo-flag{
+    display:inline-block; background:#e0522f; color:#fff; font-size:11px; font-weight:700;
+    padding:3px 10px; border-radius:20px; margin-bottom:10px; letter-spacing:0.03em;
+  }
+
+  .sub-nav{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px;}
+  .sub-nav button{
+    all:unset; cursor:pointer; box-sizing:border-box;
+    font-size:12.5px; font-weight:700; padding:9px 16px;
+    border-radius:20px; border:1px solid var(--line); color:var(--navy); background:#fff;
+  }
+  .sub-nav button.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .sub-tab-panel{display:none;}
+  .sub-tab-panel.active{display:block;}
+  .eval-box{
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:16px 18px; margin-bottom:20px;
+  }
+  .eval-box h3{font-family:'Shippori Mincho', serif; font-size:14.5px; color:var(--navy); margin-bottom:10px;}
+  .eval-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:480px){.eval-grid{grid-template-columns:1fr;}}
+  .eval-item{
+    display:flex; align-items:center; gap:10px;
+    background:#fff; border-left:3px solid var(--gold); border-radius:6px;
+    padding:12px 14px; box-shadow:0 1px 3px rgba(19,32,56,0.06);
+  }
+  .eval-item .icon{font-size:18px; flex-shrink:0;}
+  .eval-item .txt{font-size:12.5px; font-weight:700; color:var(--navy); line-height:1.4;}
+
+  .q-category{margin-bottom:20px;}
+  .q-category:last-child{margin-bottom:0;}
+  .q-category-head{display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px; color:var(--navy); margin-bottom:10px;}
+  .q-list{display:flex; flex-direction:column; gap:8px;}
+  .q-card{
+    display:flex; gap:8px; align-items:flex-start;
+    background:#fff; border-radius:8px; padding:12px 14px;
+    box-shadow:0 1px 3px rgba(19,32,56,0.06); font-size:13px; color:var(--ink); font-weight:500;
+  }
+  .q-card::before{content:"📌"; flex-shrink:0; font-size:12px;}
+  .ng-box{
+    background:#fdf1ef; border:1px solid #f0c9c1; border-radius:8px; padding:16px 18px; margin-top:18px;
+  }
+  .ng-box .ng-head{display:flex; align-items:center; gap:6px; font-weight:700; font-size:13.5px; color:#b33f2c; margin-bottom:10px;}
+  .ng-box ul{list-style:none; margin-bottom:10px;}
+  .ng-box li{font-size:13px; color:#8a4136; padding:4px 0;}
+  .ng-box .ng-note{font-size:12px; color:var(--ink-soft); border-top:1px dashed #f0c9c1; padding-top:10px;}
+
+  .post-card{
+    background:#fff; border-radius:8px; padding:20px 22px; margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(19,32,56,0.06); border-top:3px solid var(--navy);
+  }
+  .post-date{font-size:11.5px; font-weight:700; color:var(--teal); letter-spacing:0.04em; margin-bottom:6px;}
+  .post-title{font-family:'Shippori Mincho', serif; font-size:16px; font-weight:700; color:var(--navy); margin-bottom:10px;}
+  .post-body{font-size:13.5px; color:var(--ink-soft); line-height:1.8;}
+  .empty-state{
+    text-align:center; padding:48px 20px; color:var(--ink-soft); font-size:13px;
+    border:1px dashed var(--line); border-radius:8px;
+  }
+
+  .note-cta{
+    background:linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 55%, var(--teal) 130%);
+    border-radius:8px; padding:22px; margin-bottom:20px; color:#fff;
+  }
+  .note-cta .note-label{font-size:11px; font-weight:700; letter-spacing:0.08em; color:#f0dfa0; margin-bottom:8px;}
+  .note-cta .note-title{font-family:'Shippori Mincho', serif; font-size:16px; font-weight:700; margin-bottom:8px;}
+  .note-cta p{font-size:13px; color:rgba(255,255,255,0.85); margin-bottom:14px; line-height:1.7;}
+  .note-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--gold); color:var(--navy-deep); font-weight:700; font-size:13px;
+    padding:11px 20px; border-radius:6px; text-decoration:none;
+  }
+  .note-btn:hover{background:var(--gold-soft);}
+
+  /* ---- column cards ---- */
+  .col-card{
+    background:#fff; border-left:3px solid var(--gold); border-radius:4px;
+    padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 3px rgba(19,32,56,0.06);
+  }
+  .col-card .col-label{font-size:11px; color:var(--teal); font-weight:700; letter-spacing:0.05em; margin-bottom:6px;}
+  .col-card .col-title{font-weight:700; font-size:15px; color:var(--navy); margin-bottom:8px;}
+  .col-card .col-body{font-size:13.5px; color:var(--ink-soft);}
+  .col-card .col-body ul{margin:8px 0 0 18px;}
+  .col-card .col-body li{margin-bottom:4px;}
+
+  /* ---- download cards ---- */
+  .dl-category{margin-bottom:30px;}
+  .dl-category h3{font-family:'Shippori Mincho', serif; font-size:16px; color:var(--navy); margin-bottom:12px;}
+  .card{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    background:#fff; border-left:3px solid var(--gold); border-radius:4px;
+    padding:16px 18px; margin-bottom:10px; box-shadow:0 1px 3px rgba(19,32,56,0.06);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{transform:translateX(2px); box-shadow:0 4px 14px rgba(19,32,56,0.10);}
+  .card-info .title{font-weight:700; font-size:14.5px; color:var(--navy); margin-bottom:3px;}
+  .card-info .desc{font-size:12.5px; color:var(--ink-soft);}
+  .dl-btn{
+    flex-shrink:0; display:inline-flex; align-items:center; gap:6px;
+    background:var(--navy); color:#fff; text-decoration:none; font-size:13px; font-weight:500;
+    padding:9px 15px; border-radius:4px; white-space:nowrap; transition:background .15s ease;
+  }
+  .dl-btn:hover{background:var(--teal);}
+  @media (max-width:480px){
+    .card{flex-direction:column; align-items:flex-start;}
+    .dl-btn{width:100%; justify-content:center;}
+  }
+
+  footer{max-width:780px; margin:0 auto; padding:0 24px 60px; font-size:12px; color:var(--ink-soft);}
+  footer .line{border-top:1px solid var(--line); padding-top:20px;}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <button data-tab="home" class="active">自己紹介</button>
+  <button data-tab="points">就活のポイント</button>
+  <button data-tab="interview">面接対策</button>
+  <button data-tab="column">コラム</button>
+  <button data-tab="blog">就活記事</button>
+</nav>
+
+<main>
+
+  <!-- ===== 自己紹介（初期表示） ===== -->
+  <section id="home" class="tab-section active">
+    <div class="hero" style="margin:0 -24px;">
+      <div class="hero-inner">
+        <div class="eyebrow">CAREER ADVISOR</div>
+        <h1>あなたの就活を、<br>一緒に前に進めます</h1>
+        <p>新卒紹介のキャリアアドバイザーとして、学生一人ひとりの強みや軸に向き合いながら、内定までの伴走をしています。</p>
+        <div class="advisor">
+          <div class="advisor-badge">村</div>
+          <div>
+            <div style="font-weight:700;">村田一豪</div>
+            <div style="font-size:12.5px; color:rgba(255,255,255,0.75);">キャリアアドバイザー（新卒紹介）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-body">
+      <div class="profile-block" style="margin-top:36px;">
+        <h3>経歴</h3>
+        <ul class="history-list">
+          <li><div class="year">2018〜2021</div><div class="desc">大学卒業後、新卒で芸能プロダクションに入社。タレントマネジャーとして従事。現場同行やスケジュール調整に加え、制作会社への営業やイベント企画・運営まで幅広く担当。（主な担当タレント：横浜流星）</div></li>
+          <li><div class="year">2021〜現在</div><div class="desc">パーソルキャリア（doda）にてキャリアアドバイザーとして従事。求職者へのカウンセリング、面接対策、書類作成のサポート、企業担当との連携まで一貫して担当。</div></li>
+        </ul>
+      </div>
+
+      <div class="profile-block">
+        <h3>キャリアアドバイザーとして</h3>
+        <p>これまで、転職・就職を考える方々のカウンセリングから面接対策、書類作成のサポートまで伴走しています。感覚ではなく「今どこに課題があるか」を一緒に整理しながら進めるのが得意です。</p>
+      </div>
+
+      <div class="profile-block">
+        <h3>大切にしていること</h3>
+        <p>就活は「内定を取ること」がゴールではなく、納得して働き始められるかどうかが大事だと考えています。企業側の視点と学生側の想い、両方を理解した上で、無理のないマッチングを一緒に探します。相手の成功のために何ができるかを起点に準備すること、それがずっと変わらない自分のスタンスです。</p>
+      </div>
+
+      <div class="profile-block">
+        <h3>相談できること</h3>
+        <div class="tag-row">
+          <span>自己分析</span>
+          <span>ES添削</span>
+          <span>面接対策</span>
+          <span>企業選びの軸整理</span>
+          <span>求人の紹介</span>
+          <span>職種の相談</span>
+          <span>進め方の相談</span>
+          <span>選考スケジュール管理</span>
+        </div>
+        <p style="font-size:12px; color:var(--ink-soft); margin-top:10px;">※ES添削・面接対策は、doda経由でご応募いただいた選考のみ対応となります</p>
+      </div>
+
+      <!-- TODO: 紹介用URLが決まったら下のhref="#"を差し替えてください -->
+      <div class="referral-box">
+        <div class="referral-title">友人紹介について</div>
+        <p>就活は一人で進めるより、一緒に頑張れる仲間がいる方が、情報交換やモチベーション維持などの観点からメリットが大きく、活動のペースや通過率も上がっていきます。周りに就活で悩んでいる友人がいたら、ぜひ村田をご紹介ください。ご紹介いただいた方も、私が担当としてしっかりサポートします。</p>
+
+        <div class="link-copy-box">
+          <span class="link-text" id="referral-link-text">https://qrtn.jp/699zg</span>
+          <button class="copy-btn" id="referral-copy-btn" onclick="copyReferralLink()">コピー</button>
+        </div>
+
+        <a class="referral-btn" href="https://qrtn.jp/699zg" target="_blank" rel="noopener" style="margin-top:10px;">リンクを開く</a>
+
+        <p style="margin-top:14px;">こちらのリンクをコピーして友人に送っていただき、必要事項をご入力してもらってください。</p>
+        <p style="margin-bottom:0; font-size:12px; color:rgba(255,255,255,0.75);">＊登録が確認できましたら、担当からご連絡させていただきます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 面接対策 ===== -->
+  <section id="interview" class="tab-section">
+    <div class="inner">
+      <div class="sec-head">
+        <div class="eyebrow2">INTERVIEW</div>
+        <h2>面接対策</h2>
+        <p>回答の型と、企業側がどこを見ているかを知っておくと準備の精度が上がります。なお、ここで紹介しているのはあくまで基礎的な内容です。より深い内容や個別のケースに応じた対策は、実際の面接対策の中でお伝えします。</p>
+      </div>
+
+      <div class="eval-box">
+        <h3>企業側が見ている4つの評価軸</h3>
+        <div class="eval-grid">
+          <div class="eval-item"><span class="icon">🤝</span><span class="txt">自社（業界・職種）とのマッチ度</span></div>
+          <div class="eval-item"><span class="icon">🌱</span><span class="txt">ポテンシャル・成長可能性</span></div>
+          <div class="eval-item"><span class="icon">💬</span><span class="txt">人柄・コミュニケーション力</span></div>
+          <div class="eval-item"><span class="icon">🔥</span><span class="txt">入社意欲の高さ</span></div>
+        </div>
+      </div>
+
+      <div class="sub-nav" id="interview-subnav">
+        <button data-subtab="impression" class="active">① 第一印象</button>
+        <button data-subtab="intro">② 自己紹介</button>
+        <button data-subtab="basics">③ 基礎質問</button>
+        <button data-subtab="reverse">④ 逆質問</button>
+        <button data-subtab="competition">⑤ 他社状況についての質問</button>
+      </div>
+
+      <div class="sub-tab-panel active" id="impression">
+        <div class="frame-box">
+          <h3>第一印象で、合否の半分が決まる</h3>
+          <p>話す内容以前に、面接のお見送り理由の約3割は印象面によるものと言われます。声が小さい、表情が硬い、清潔感がないなど、最低限の基準をクリアできていないケースは意外と多いです。いかに素晴らしい志望動機やガクチカを話せたとしても、これでは面接の通過が難しくなってしまいます。以下、改めて意識を強めましょう。</p>
+          <p style="margin-top:8px; font-size:12.5px; color:var(--ink-soft);">※メラビアンの法則：話の内容そのものより、見た目や声のトーンなど「話し方」の印象の方が相手に強く伝わる、という心理学の考え方です（内訳の目安は視覚55%・聴覚38%・言語7%）。</p>
+          <div class="grid2" style="margin-top:14px;">
+            <div>
+              <div style="font-weight:700; font-size:13px; color:var(--teal); margin-bottom:6px;">視覚 55%</div>
+              <ul class="checklist">
+                <li>表情：意欲を伝える場面では口角を上げる</li>
+                <li>視線：オンラインは画面でなくカメラを見る</li>
+                <li>姿勢：背筋を伸ばし、適度に頷く</li>
+                <li>身だしなみ：清潔感のある服装・髪型</li>
+              </ul>
+            </div>
+            <div>
+              <div style="font-weight:700; font-size:13px; color:var(--teal); margin-bottom:6px;">聴覚 38%</div>
+              <ul class="checklist">
+                <li>トーン：普段より少し高めで明るく</li>
+                <li>スピード：早口を避け「間」を意識</li>
+                <li>語尾：最後まではっきり言い切る</li>
+                <li>声量：聞き取りやすい大きさで</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-tab-panel" id="intro">
+        <div class="frame-box">
+          <h3>自己紹介</h3>
+          <p style="margin-bottom:10px;">自己紹介は、面接の冒頭で第一印象を左右する重要な場面です。長く話す必要はなく、1分前後を目安に以下のような構成で簡潔にまとめましょう。<br>＊あくまで構成の一例です。必ずしも以下に当てはめなくてもOKです</p>
+
+          <div class="sub-label">構成</div>
+          <div class="vflow" style="gap:8px;">
+            <div class="cell"><span class="n">1</span><span class="t">挨拶＋大学・学部・氏名</span></div>
+            <div class="cell"><span class="n">2</span><span class="t">学内で力を入れたこと（ゼミ・研究など）</span></div>
+            <div class="cell"><span class="n">3</span><span class="t">学外で力を入れたこと（アルバイト・課外活動など）</span></div>
+            <div class="cell"><span class="n">4</span><span class="t">そこから得た学び・価値観</span></div>
+            <div class="cell"><span class="n">5</span><span class="t">貢献意欲</span></div>
+            <div class="cell"><span class="n">6</span><span class="t">結びの一言</span></div>
+          </div>
+
+          <div class="script-box">
+            <div class="script-label">回答テンプレート</div>
+            <div class="script-text">
+              改めて本日は貴重なお時間をいただきありがとうございます。<span class="blank">○○</span>大学<span class="blank">○○</span>学部の<span class="blank">○○</span>と申します。<br><br>
+              大学では<span class="blank">○○</span>ゼミにて<span class="blank">○○</span>の研究や学習を進めております。またアルバイトでは<span class="blank">○○</span>年間<span class="blank">○○</span>にて<span class="blank">○○</span>の業務に従事しており、<span class="blank">○○</span>のスキルを培うことができたと自負しております。またこの経験を通じて、<span class="blank">○○</span>という姿勢を大切にするようになりました。<br><br>
+              御社でも早くから成果を出せる人材になれるよう、一生懸命取り組む所存でございます。本日はどうぞよろしくお願いいたします。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-tab-panel" id="basics">
+        <div class="frame-box">
+          <h3>ガクチカの組み立て方</h3>
+          <p style="margin-bottom:10px;">面接官が見ているのは「過去の凄さ」ではなく、同じ状況が仕事で起きたときにどう動けるかという再現性です。</p>
+          <ul class="flow-list">
+            <li>
+              <div class="flow-title">結論</div>
+              <div class="flow-desc">最初に「何を頑張ったか」を一言で伝える。</div>
+            </li>
+            <li>
+              <div class="flow-title">状況・課題</div>
+              <div class="flow-desc">当時の状況、何が大変だったかを数字や具体例とともに説明する。</div>
+            </li>
+            <li>
+              <div class="flow-title">考えて行動したこと</div>
+              <div class="flow-desc">なぜその行動をしたのか、どんな工夫をしたのかを伝える。ここが最も重要な部分。</div>
+            </li>
+            <li>
+              <div class="flow-title">結果</div>
+              <div class="flow-desc">行動した結果どうなったかを、できれば数字で伝える。</div>
+            </li>
+            <li>
+              <div class="flow-title">学び・活かし方</div>
+              <div class="flow-desc">この経験から何を学び、入社後どう活かしたいかで締める。</div>
+            </li>
+          </ul>
+
+          <div class="script-box">
+            <div class="script-label">①〜⑤を踏まえた例文</div>
+            <div class="script-text">
+              私は学生時代、所属していた○○サークルの部長として、参加率向上に力を入れました。<span class="step-tag">（結論）</span><br><br>
+              私が入った当時、サークル活動の参加率は50％まで落ち込み、メンバーのやる気にも差が出ている状況でした。<span class="step-tag">（状況・課題）</span><br><br>
+              2年次になり、部長として抜擢されてから、この状況を変えたいという思いのもと、まず参加率が低い原因をアンケートで調べたところ、「活動レベルが高く初心者は参加しづらい」「既存メンバー同士の仲が深く、新しく入った人が馴染みにくい」という声が多いことが分かりました。そこで、誰でも気軽に参加できる環境づくりが必要だと考え、経験者と初心者が自然に交流できるビギナー向けの活動や、練習外でもメンバーが交流できるようなイベントなどを積極的に複数企画しました。<span class="step-tag">（考えて行動したこと）</span><br><br>
+              その結果、半年後には参加率が50％から80％まで向上。周囲のメンバーからも継続的な取り組みを評価していただき、活動参加への障壁が無くなったという言葉を複数もらうことができました。<span class="step-tag">（結果）</span><br><br>
+              この経験を通じて、課題を分析し、周囲を巻き込みながら改善する力を身につけました。この力を、御社でもチームで成果を出す場面で活かしたいと考えています。<span class="step-tag">（学び・活かし方）</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TODO: 自己PRの内容を要ブラッシュアップ -->
+        <div class="frame-box">
+          <h3>自己PRの組み立て方</h3>
+          <p style="margin-bottom:10px;">ガクチカが「どう課題に向き合い、乗り越えたか」という過程そのものを見せる場だとすれば、自己PRは「その過程で発揮された強み」を主役にする場です。同じエピソードを使ってもかまいませんが、プロセスの説明は背景として圧縮し、強みが発揮された場面を前に出しましょう。</p>
+
+          <div class="sub-label">書く前の準備：企業ニーズから逆算する</div>
+          <ul class="checklist">
+            <li>求人票だけではなく、HPの社員紹介記事などを見て、その企業がどんな社風や環境なのか（例：協調性重視かリーダーシップ重視かなど）を把握する</li>
+            <li>職種他、調べた社風や求める人物像などに最も合致するエピソードを、自分の経験の引き出しから選ぶ</li>
+          </ul>
+
+          <div class="sub-label">構成案</div>
+          <ul class="flow-list">
+            <li>
+              <div class="flow-title">結論</div>
+              <div class="flow-desc">強みは1つに絞る。要素を詰め込むほど印象に残りにくくなる。</div>
+            </li>
+            <li>
+              <div class="flow-title">エピソード</div>
+              <div class="flow-desc">状況や行動の説明は背景として簡潔にとどめ、その強みがどう発揮されたかが伝わる場面を選ぶ。「誰よりも早く」ではなく「朝5時から」のように、具体的な数字を使うと努力の度合いが伝わりやすい。</div>
+            </li>
+            <li>
+              <div class="flow-title">学び・成長</div>
+              <div class="flow-desc">行動の結果どうなったか、そこから何を学んだかを伝える。</div>
+            </li>
+            <li>
+              <div class="flow-title">入社後の活かし方</div>
+              <div class="flow-desc">その強みを、入社後どんな場面でどう活かせるかで締める。</div>
+            </li>
+          </ul>
+
+          <div class="script-box">
+            <div class="script-label">①〜④を踏まえた例文</div>
+            <div class="script-text">
+              私の強みは、課題を見つけ周囲を巻き込みながら改善に導ける力です。<span class="step-tag">（結論）</span><br><br>
+              大学2年から続けている飲食店のアルバイトで、ランチのピーク時にオーダーミスが月20件ほど発生し、お客様からのクレームにつながっていました。原因を調べたところ、繁忙時は複数のスタッフがそれぞれ独自の略称でオーダーを伝えており、厨房側で解釈にばらつきが出ていることが分かり、共通フォーマットで注文内容を紙に書き出し厨房と共有する仕組みを店長に提案・導入しました。<span class="step-tag">（エピソード）</span><br><br>
+              結果、オーダーミスは月20件から3件まで減少し、店長からも「働きやすくなった」と評価をいただきました。この経験から、感覚ではなく事実に基づいて原因を特定し、周囲を巻き込みながら改善する力を身につけました。<span class="step-tag">（学び・成長）</span><br><br>
+              この強みを活かし、御社でも現場の課題を早期に見つけ、チームで解決に導ける人材として貢献したいと考えています。<span class="step-tag">（入社後の活かし方）</span>
+            </div>
+          </div>
+
+          <div class="sub-label">本番前の最終チェック</div>
+          <ul class="checklist">
+            <li>掲げた強みは、紹介したエピソードの中で実際に発揮されているか（エピソードにない要素を書いていないか）</li>
+            <li>数字や固有名詞を使って、具体的に書けているか</li>
+            <li>「だから貢献できます」まで、貢献可能性につなげて締めているか</li>
+          </ul>
+        </div>
+
+        <div class="frame-box">
+          <h3>志望動機の組み立て方</h3>
+          <p style="margin-bottom:10px;">志望動機においては、基本的に企業側は「論理性」「本気度」などから、「内定を出したら本当に入社してくれるのか」「入社後、ギャップを感じて早期に辞めてしまわないか（定着可能性）」といった観点で評価をしています。特にこの定着可能性は、企業にとって採用コストに直結する重要な判断材料になっています。どの企業にも当てはまるような内容や、論理性が伴わない内容だと、この点で懸念を持たれ、不合格につながるケースが多いです。</p>
+
+          <div class="sub-label">下準備</div>
+          <ul class="checklist">
+            <li>自己分析で「働く上で何を大切にしたいか」という就活の軸や価値観を言語化しておく（条件面は除く）</li>
+            <li>企業研究で、その企業ならではの事業内容・強み・社風を把握しておく</li>
+            <li>自分の軸や思いと、その企業の特徴が重なる部分を探す</li>
+          </ul>
+
+          <div class="sub-label">構成案</div>
+          <ul class="flow-list">
+            <li>
+              <div class="flow-title">結論</div>
+              <div class="flow-desc">その企業の何に一番惹かれたのかを、最初の一文で端的に伝える。抽象的な表現ではなく、その企業固有の事業・製品・取り組みに触れる。</div>
+            </li>
+            <li>
+              <div class="flow-title">理由</div>
+              <div class="flow-desc">なぜそこに惹かれたのかを、自分の価値観・就活の軸と結びつけて説明する。あわせて、その価値観を持つに至った裏付けとなる具体的なエピソードもここで盛り込む。</div>
+            </li>
+            <li>
+              <div class="flow-title">まとめ（結論の再提示）</div>
+              <div class="flow-desc">①の結論を短く繰り返し、志望度の高さを念押しする。新しい情報を足す必要はない。</div>
+            </li>
+          </ul>
+
+          <div class="script-box">
+            <div class="script-label">①〜③を踏まえた例文</div>
+            <p style="font-size:12px; color:var(--ink-soft); margin-bottom:8px;">※教育業界・オンライン学習サービスを展開する企業を想定した例文です</p>
+            <div class="script-text">
+              御社を志望する理由は、地方と都市部の教育格差を、オンライン学習サービスを通じて解消しようとしている点に強く惹かれたためです。<span class="step-tag">（結論）</span><br><br>
+              きっかけは、地方にある私の地元の高校生たちが、都市部に比べて得られる進路情報の少なさから、進路の選択肢を狭めてしまっている姿を見たことです。そこで私は「住む場所に関わらず、誰もが必要な情報に平等にアクセスできる環境が必要だ」と考えるようになりました。実際に大学では、この課題意識から地元の高校生向けにオンライン進路相談のボランティア活動を1年間続けています。この経験を通じて大切にしてきた考え方が、御社の掲げる「学びの機会を、住む場所で区切らない」という姿勢とまさに重なっており、強く共感しています。<span class="step-tag">（理由）</span><br><br>
+              このような理由から、私は御社を強く志望しております。<span class="step-tag">（まとめ）</span>
+            </div>
+          </div>
+
+          <div class="sub-label">本番前の最終チェック</div>
+          <ul class="checklist">
+            <li>他社にもそのまま当てはまる内容になっていないか（企業固有の情報が入っているか）</li>
+            <li>福利厚生や待遇など、条件面だけが理由になっていないか</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sub-tab-panel" id="reverse">
+        <div class="frame-box">
+          <h3>逆質問は最後のアピールタイム</h3>
+          <p style="margin-bottom:16px;">「最後に何かありますか？」は質問タイムではなく、最後の自己アピールの機会です。誰が相手かによって、刺さる質問は変わります。</p>
+
+          <div class="q-category">
+            <div class="q-category-head">👤 相手が人事の場合</div>
+            <div class="q-list">
+              <div class="q-card">入社後、最初の1〜2年ではどのようなスキルや経験を積むことが多いですか？</div>
+              <div class="q-card">御社で活躍されている若手社員に共通する特徴があれば教えてください</div>
+              <div class="q-card">御社の社風・カルチャーを一言で表現するとどうなりますか？</div>
+              <div class="q-card">今回の募集背景・ポジションに期待される役割を教えてください</div>
+            </div>
+          </div>
+
+          <div class="q-category">
+            <div class="q-category-head">💼 相手が現場社員の場合</div>
+            <div class="q-list">
+              <div class="q-card">入社当初、仕事に慣れるまでに苦労されたことはどんなことでしたか？</div>
+              <div class="q-card">今の業務で最もやりがいを感じる瞬間を教えてください</div>
+              <div class="q-card">一日の仕事の流れ（タイムスケジュール）を教えてください</div>
+              <div class="q-card">チームの雰囲気や、部署内のコミュニケーション文化について聞かせてください</div>
+            </div>
+          </div>
+
+          <div class="q-category">
+            <div class="q-category-head">🎩 最終面接（役員・社長）の場合</div>
+            <div class="q-list">
+              <div class="q-card">御社が今後3〜5年で最も注力していく事業や方針はどのようなものですか？</div>
+              <div class="q-card">この先、時代がどれだけ変わっても、御社が「絶対に変えてはいけない」と考えている軸は何でしょうか？</div>
+              <div class="q-card">役員（社長）の視点から見て、新卒の若手に「こういう視点を持って動いてほしい」と期待されることは何でしょうか？</div>
+            </div>
+          </div>
+
+          <div class="ng-box">
+            <div class="ng-head">✕ 避けるべき逆質問</div>
+            <ul>
+              <li>「残業はどのくらいですか？」</li>
+              <li>「有給休暇は取れますか？」</li>
+              <li>「給与はいくらですか？」</li>
+              <li>「転勤はありますか？」（ネガティブな文脈で聞く場合）</li>
+              <li>「説明会・HPに載っている内容」をそのまま聞く</li>
+            </ul>
+            <div class="ng-note">※待遇・条件系の質問は面接では避けましょう。最終面接後の内定後面談で確認するのが基本です。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-tab-panel" id="competition">
+        <div class="frame-box">
+          <h3>他社選考状況・併願について聞かれたら</h3>
+          <p style="margin-bottom:10px;">「他社も受けていますか？」は多くの選考で聞かれる定番質問です。面接官は、志望度の高さ・就活の軸に一貫性があるか・他社からどう評価されているかを知りたくて質問しています。</p>
+
+          <div class="sub-label">回答の基本方針</div>
+          <ul class="checklist">
+            <li>基本的には正直に答える方針でOK。ただし応募の軸に一貫性がなく、複数領域を受けている場合は懸念に思われるケースもあるため、整合性を保てるよう伝える領域を絞っても大丈夫です</li>
+            <li>選考中の社数は2〜4社程度に絞って伝える。多すぎると志望度が低いと見られやすい</li>
+            <li>具体的な社名は、聞かれない限り伝える必要はない。「同業界で◯社」など業界・規模レベルで十分</li>
+            <li>業界が異なる場合は、共通する「就活の軸」を伝えて一貫性を示す</li>
+            <li>最後は「その中でも御社が第一志望です」で締めれると意欲も伝わりベスト</li>
+          </ul>
+
+          <div class="script-box">
+            <div class="script-label">回答例</div>
+            <div class="script-text">
+              現在、同業界を中心に<span class="blank">○○</span>社ほど選考が進んでおります。<br><br>
+              いずれも「<span class="blank">○○</span>」という軸で企業選びをしており、その中でも御社は<span class="blank">○○</span>という点に特に魅力を感じているため、第一志望とさせていただいております。
+            </div>
+          </div>
+
+          <div class="ng-box">
+            <div class="ng-head">✕ 気をつけたいNG回答</div>
+            <ul>
+              <li>「他社は受けていません」（不自然に映り、視野の狭さを疑われることがある）</li>
+              <li>選考中の企業を10社以上並べる（志望度が分散していると見られやすい）</li>
+              <li>他社の非公開情報（事業計画・経営戦略など）を話してしまう（守秘義務違反にあたる）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="points" class="tab-section">
+    <div class="inner">
+      <div class="sec-head">
+        <div class="eyebrow2">POINTS</div>
+        <h2>就活のポイント</h2>
+        <p>なかなか活動が前進しない、内定が出ないという学生や、例年4年生の夏休み以降まで苦戦される学生の半数ほどは、以下「応募の量・応募の質・応募のスピード」のいずれかが欠けているケースが多いです。自分の活動を振り返り、足りていない部分を補っていきましょう。</p>
+      </div>
+
+      <div class="frame-box">
+        <h3>応募の量</h3>
+        <p>選考は「1社に全力投球すれば受かる」ものではありません。1社の内定を得るためには、平均して10〜20社程度への応募が目安になるというデータもあります。数字で見ると、エントリーから内定までにはこれだけの差があります。</p>
+        <div class="stat-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="stat-card"><div class="num">30社</div><div class="label">平均エントリー数</div><div class="src">就活生の目安</div></div>
+          <div class="stat-card"><div class="num">2〜3社</div><div class="label">平均内定獲得数</div><div class="src">就活生の目安</div></div>
+        </div>
+
+        <div class="sub-label">内定までの流れ（イメージ）</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label"><span>エントリー</span><span>30社</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>ES通過</span><span>15社</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:50%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>一次通過</span><span>8社</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:27%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>最終選考</span><span>4社</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:13%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>内定獲得</span><span>2〜3社</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:8%;"></div></div>
+          </div>
+        </div>
+        <div class="chart-note">※各段階の数値は、平均エントリー数・平均内定獲得数をもとにした目安のイメージです</div>
+
+        <p style="margin-top:14px;">エントリーした企業のすべてで選考に進めるわけではなく、内定に至るのはそのごく一部です。「少し気になる」と思った企業には、まず応募してみることが結果的に選択肢を広げます。</p>
+
+        <div class="sub-label">量を増やすメリット</div>
+        <ul class="checklist">
+          <li>いきなり本命企業の面接で力を発揮するのは難しい。複数社の選考を受けながら面接力そのものを上げていくことが大事</li>
+          <li>比較対象が増え、自分に合う企業を見極めやすくなる。また選択肢が増えることで、より良い条件の企業を見つけやすくなる</li>
+          <li>志望職種・業界が定まっていない学生こそ、まずはいろいろな企業にエントリーして自分の適性を見極めることが近道</li>
+        </ul>
+
+        <div class="sub-label">量を増やすためのポイント</div>
+        <ul class="checklist">
+          <li>職種×業界の組み合わせで、最低2〜3の選択肢を持っておきましょう（志望度に優劣があってOK）。1つの選択肢だけに絞ると、応募できる求人数が必然的に限られてしまいます。また、選択肢が1つしか出てこないのは自己分析が浅い可能性のサインでもあるため、棚卸しを重ねながら第2・第3の選択肢を持ち、複数を比較しながら進めることが大切です</li>
+          <li>エントリーは就活序盤に一度行って終わり、というものではありません。選考が進んでも並行して新しい求人へのエントリーを継続することが大切です。目の前の選考に集中するあまりエントリーの手が止まってしまうと、その選考でつまずいた時に次の選択肢がない、という状態に陥ってしまいます。常に次のエントリー先を探し続ける姿勢が、活動全体を安定させます</li>
+        </ul>
+      </div>
+
+      <div class="frame-box">
+        <h3>応募のスピード</h3>
+        <p>就活の早期化は年々進んでいます。「後で応募しよう」と迷っている間に、募集そのものが締め切られてしまうことも珍しくありません。</p>
+
+        <div class="sub-label">内定保有率の推移（大学3年3月〜4年10月）</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label"><span>3月1日時点</span><span>43.1%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:43.1%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>6月1日時点</span><span>81.6%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:81.6%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>10月中旬時点</span><span>90.5%</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:90.5%;"></div></div>
+          </div>
+        </div>
+        <div class="chart-note">26卒／マイナビ「大学生キャリア意向調査」各時点調査より</div>
+
+        <div class="sub-label" style="margin-top:20px;">求人数の推移（イメージ）</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label"><span>3月（広報解禁直後）</span><span>募集が最も多い</span></div>
+            <div class="bar-track"><div class="bar-fill alt" style="width:100%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>6月頃</span><span>人気企業から順に締切</span></div>
+            <div class="bar-track"><div class="bar-fill alt" style="width:60%;"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label"><span>10月以降</span><span>残る募集は限定的</span></div>
+            <div class="bar-track"><div class="bar-fill alt" style="width:25%;"></div></div>
+          </div>
+        </div>
+
+        <div class="sub-label" style="margin-top:20px;">スピード感を持って進めるメリット</div>
+        <p style="margin-bottom:12px;">上のグラフから、内定を持つ学生は3月から10月にかけて右肩上がりに増える一方、求人という「枠」は少しずつ減っていきます。だからこそ、応募を先延ばしにするのはもったいないことでもあります。「もう少し考えてから」と思っているうちに、いつの間にか募集が終了してしまうケースも実際に少なくありません。セミナーや説明会からスタートする求人も多いので、少しでも気になったら「まずは話を聞いてみる」くらいの感覚で動いてみることをおすすめします。</p>
+        <div class="qa-item">
+          <div class="qa-q">採用枠が埋まるほど、評価は「絶対評価」から「相対評価」に変わる</div>
+          <div class="qa-a">企業のスタンスとして、募集開始序盤の採用枠が潤沢な時期は、一定の基準を満たせば内定を出す「絶対評価」に近い形で採用活動を進めます。しかし枠が埋まっていくにつれて、企業は「選考中の候補者の中で誰が一番良いか」で判断する「相対評価」に切り替わっていきます。仮に面接で100点の受け答えができていても、後から120点のライバルが現れれば、その枠を勝ち取れるとは限りません。実力が同じでも、動くタイミング次第で結果が変わってしまうということです。</div>
+        </div>
+
+        <div class="sub-label">知っておきたい現状</div>
+        <ul class="checklist">
+          <li>早期化が進み、大学3年の3月時点で約43%の学生が内定を保有</li>
+          <li>人気求人は募集開始から数週間〜1ヶ月で締め切られることも</li>
+          <li>「後で応募しよう」が就活における最大のリスク</li>
+        </ul>
+      </div>
+
+      <div class="frame-box">
+        <h3>応募の質</h3>
+        <p>「質」とは、適性の高い方向性を選べているかということです。企業が採用の場で見ているのは、学生の意欲の高さだけではなく、「入社後に本当に活躍できる適性があるか」です。どれだけ「やりたいです！」と伝えても、そこに適性が伴っていなければ、合格にはつながりません。</p>
+        <p style="margin-top:8px;">そして適性は、「業界（何を扱うか）」よりも「職種（何をするのか）」で測った方が見えやすくなります。だからこそ、まずは職種を軸に、自分と相性の良い方向性を選べているかを確認することが、質を上げる第一歩になります。</p>
+
+        <div class="sub-label">「業界」ではなく「職種」で考えるべき理由</div>
+        <ul class="checklist">
+          <li>業界は数えきれないほどあり比較に時間がかかるが、新卒段階で選べる職種はある程度パターン化できる</li>
+          <li>面接官が見ているのは「業界への興味」以上に「仕事内容への適性」であることが多い</li>
+          <li>自分の強みに合った職種を意図的に選ぶことで、選考を通過しやすくなり、入社後のギャップも減らせる</li>
+        </ul>
+
+        <div class="sub-label">強みから見る、職種との相性の例</div>
+        <table class="rank-table">
+          <tr><th>職種</th><th>向いている強みの例</th></tr>
+          <tr><td>営業（法人）</td><td>相手との信頼関係を粘り強く築ける／課題を深掘りして提案につなげられる</td></tr>
+          <tr><td>営業（個人）</td><td>初対面でも距離を縮められる／相手の感情の機微を察知できる</td></tr>
+          <tr><td>販売・接客</td><td>相手のニーズを引き出せる／状況に応じて臨機応変に対応できる</td></tr>
+          <tr><td>事務・管理部門</td><td>ミスなく物事を正確に進められる／全体の進行管理が得意</td></tr>
+          <tr><td>エンジニア（SE・インフラ）</td><td>物事を論理的に整理できる／地道な学習・改善を続けられる</td></tr>
+          <tr><td>コンサルタント</td><td>問題を分解して整理するのが得意／筋道立てて考えられる</td></tr>
+          <tr><td>施工管理</td><td>複数人・複数タスクを段取りよくまとめられる／計画通りに物事を進める力がある</td></tr>
+          <tr><td>福祉・医療・介護</td><td>ホスピタリティが強い／関係性を大事にしたい</td></tr>
+          <tr><td>製造・技術職</td><td>コツコツ集中して取り組める／細かい品質にこだわれる</td></tr>
+        </table>
+        <p style="margin-top:10px;">「やりたいこと」を否定する必要はありません。ただ、それだけで方向性を決めるのではなく、自分の強みの棚卸しを重ねながら、適性の高い職種の候補を広げていくことが、質を高めることにつながります。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="column" class="tab-section">
+    <div class="inner">
+      <div class="sec-head">
+        <div class="eyebrow2">COLUMN</div>
+        <h2>就活コラム</h2>
+        <p>知っておくと動き方が変わる、実践的なトピックです。</p>
+      </div>
+
+      <div class="col-card">
+        <div class="col-label">COLUMN 01</div>
+        <div class="col-title">面接の緊張をやわらげるには</div>
+        <div class="col-body">
+          <p style="margin-bottom:10px;">面接で緊張するのは、決して珍しいことではありません。むしろ「緊張したくない」と意識するほど、かえって緊張が強くなるとも言われています。まずは緊張している自分を否定せず、以下を意識して臨みましょう。</p>
+          <ul>
+            <li>「試験」ではなく「対話」だと捉え直す。面接官も「一緒に働きたいか」を見ている、お互いを知り合う場でもあります</li>
+            <li>本番さながらの模擬面接を経験しておく。面接特有の空気感に慣れておくだけでも、当日の緊張度は大きく変わります</li>
+            <li>回答に詰まったら「恐れ入ります、もう一度お願いできますか」と質問を聞き返して間を取りましょう。一瞬ですが呼吸を整える時間になります。ただし聞き返しすぎにも注意</li>
+            <li>いつもより少し大きな声・ゆっくりしたテンポで話すことを意識する</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-card">
+        <div class="col-label">COLUMN 02</div>
+        <div class="col-title">対面面接で気をつけたいポイント</div>
+        <div class="col-body">
+          <p style="margin-bottom:8px;">対面の面接は、入室した瞬間から評価が始まっています。受け答えの内容以前に、所作でつまずかないよう基本の流れを押さえておきましょう。</p>
+          <ul>
+            <li>到着時間の目安：受付・オフィス入室は開始5〜10分前（早すぎも遅すぎもマナー違反）</li>
+            <li>ノックは3回が基本。2回は「トイレノック」とされマナー違反になるため注意</li>
+            <li>入室：「どうぞ」の返事を待ってドアを開け、一礼して「失礼します」</li>
+            <li>着席：椅子の横に立って一礼・名乗りをしてから、案内を待って着席する（鞄は椅子の横の床に静かに置く。膝の上はNG）</li>
+            <li>退室：座ったままお礼を伝え、立ち上がって一礼、ドア前で再度一礼してから退室</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-card">
+        <div class="col-label">COLUMN 03</div>
+        <div class="col-title">Web面接で気をつけたいポイント</div>
+        <div class="col-body">
+          <p style="margin-bottom:8px;">Web面接は、カメラに映る情報がすべてです。対面とは違う注意点があるので、事前にチェックしておきましょう。</p>
+          <ul>
+            <li>入室時間の目安：開始5分前を目安に入室</li>
+            <li>目線は「画面に映る相手の顔」ではなく「カメラのレンズ」に向ける</li>
+            <li>目線の高さとカメラの高さを合わせる</li>
+            <li>カンペを使う場合は、要点だけをカメラのすぐ近くに小さく貼り、目線の動きを最小限に抑えるのがコツ</li>
+            <li>通信環境・音声・映像・背景・照明は面接の前に必ずチェックしておく</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-card">
+        <div class="col-label">COLUMN 04</div>
+        <div class="col-title">一次面接〜最終面接、見られているポイントの違い</div>
+        <div class="col-body">
+          <p style="margin-bottom:10px;">面接は段階によって、面接官も評価の軸も変わります。「最終面接まで来たから、あとは意欲を伝えれば大丈夫」と考えていると、思わぬ深掘りに対応できず苦戦することもあります。段階ごとの違いを押さえておきましょう。</p>
+          <table class="rank-table">
+            <tr><th>段階</th><th>面接官</th><th>見られているポイント</th></tr>
+            <tr><td>一次面接</td><td>人事担当・若手社員</td><td>基本的なコミュニケーション力、第一印象、企業への興味・関心</td></tr>
+            <tr><td>二次面接</td><td>配属想定部署の管理職</td><td>経験の深掘り、成果の再現性、実務遂行力</td></tr>
+            <tr><td>最終面接</td><td>役員・社長</td><td>価値観が一致しているか、入社への覚悟・志望度、「一緒に働くイメージが持てるか」</td></tr>
+          </table>
+          <p style="margin-top:10px;">選考が深いフェーズに進むにつれ、面接官からの深掘りは細かくなります。同じ志望動機でも「なぜその会社なのか」「入社後どう貢献するか」など、どの角度から聞かれても一貫して具体的に語れるよう準備しておきましょう。また、最終面接で問われているのは「入りたい」という熱意だけではなく、「入社後、本気で貢献してくれる覚悟があるか」という部分です。「頑張ります」「共感しています」といった抽象的な言葉で終わらせず、入社後どう動くつもりかまで自分の言葉で語れると、評価が大きく変わります。</p>
+        </div>
+      </div>
+
+      <div class="col-card">
+        <div class="col-label">COLUMN 05</div>
+        <div class="col-title">既卒（留年）と現役、就活の難易度はどう違う？</div>
+        <div class="col-body">
+          <p style="margin-bottom:10px;">「単位が足りないから留年して来年また就活すればいい」「今年ダメでも既卒でやり直せる」と考える人もいますが、実際にはデータの上でも、現役のうちに決めるより一段ハードルが上がるのが実態です。安易な先送りにならないよう、事実を知っておきましょう。</p>
+
+          <p style="margin-bottom:10px;"><strong style="color:var(--navy);">約3割の企業は、そもそも新卒枠に応募すらできない：</strong>厚生労働省の調査では、新卒採用枠で既卒者の応募を受け付けている企業は約70％にとどまります。裏を返せば、残り約3割の企業では、既卒（留年）というだけで新卒枠への応募段階で対象外になってしまうということです。</p>
+
+          <p style="margin-bottom:10px;"><strong style="color:var(--navy);">応募できても、採用に至るのはさらにその一部：</strong>新卒枠で既卒者の応募を受け付けている企業のうち、実際に採用に至った企業は約4割。単純に掛け合わせると、全体で見て既卒者を新卒枠で採用している企業は4〜5社に1社程度（約2〜3割）という計算になります。既卒の内定率も34〜49％程度と、調査によって幅はあるものの、現役学生の内定率と比べると低い水準にとどまっています。</p>
+
+          <p style="margin-bottom:10px;"><strong style="color:var(--navy);">「なぜ既卒（留年）なのか」を必ず聞かれる：</strong>既卒・留年の学生に対して、面接官はほぼ確実に「なぜ現役で決めなかったのか／なぜ留年したのか」を質問します。ここで納得感のある説明ができないと、計画性や意欲そのものを疑われてしまいます。つまり、現役の学生が用意しなくていい「説明責任」が、既卒・留年にはもれなく追加でついてくるということです。</p>
+
+          <p><strong style="color:var(--navy);">だからこそ、今のうちに決め切る意識を：</strong>「既卒になっても何とかなる」という情報は一部事実ですが、応募できる企業の母数が減り、採用率も下がり、面接での説明負担も増える——という3つのハードルが同時に積み重なるのもまた事実です。既卒・留年を安易な選択肢にせず、今の就活で決め切ることを前提に、量・質・スピードを高めていきましょう。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog" class="tab-section">
+    <div class="inner">
+      <div class="sec-head">
+        <div class="eyebrow2">BLOG</div>
+        <h2>就活記事</h2>
+        <p>市況感や就活まわりのトピックを、村田の視点で不定期に更新していきます。</p>
+      </div>
+
+      <div class="note-cta">
+        <div class="note-label">NOTE更新中</div>
+        <div class="note-title">最新の記事はnoteで公開しています</div>
+        <p>市況感や採用動向など、タイムリーな内容はnote「芸能界出身CAの就活ノート」で随時更新しています。よければご覧ください。</p>
+        <a class="note-btn" href="https://note.com/mikadomkwr" target="_blank" rel="noopener">noteを見る</a>
+      </div>
+
+      <!-- ▼▼ 新しい投稿はこのコメントのすぐ下に追加してください ▼▼ -->
+      <!--
+      <div class="post-card">
+        <div class="post-date">2026.01.01</div>
+        <div class="post-title">ここにタイトル</div>
+        <div class="post-body">ここに本文。改行したい場合は空行の代わりに &lt;br&gt;&lt;br&gt; を入れてください。</div>
+      </div>
+      -->
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="line">本ページのURLは第三者に共有しないようお願いいたします。</div>
+</footer>
+
+<script>
+  document.getElementById('navbar').addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-tab]');
+    if(!btn) return;
+    var target = btn.getAttribute('data-tab');
+
+    document.querySelectorAll('.tab-section').forEach(function(sec){
+      sec.classList.toggle('active', sec.id === target);
+    });
+    document.querySelectorAll('.navbar button').forEach(function(b){
+      b.classList.toggle('active', b === btn);
+    });
+    window.scrollTo(0,0);
+  });
+
+  var interviewSubnav = document.getElementById('interview-subnav');
+  if(interviewSubnav){
+    interviewSubnav.addEventListener('click', function(e){
+      var btn = e.target.closest('button[data-subtab]');
+      if(!btn) return;
+      var target = btn.getAttribute('data-subtab');
+
+      document.querySelectorAll('#interview .sub-tab-panel').forEach(function(panel){
+        panel.classList.toggle('active', panel.id === target);
+      });
+      interviewSubnav.querySelectorAll('button').forEach(function(b){
+        b.classList.toggle('active', b === btn);
+      });
+    });
+  }
+  function copyReferralLink(){
+    var text = document.getElementById('referral-link-text').textContent;
+    var btn = document.getElementById('referral-copy-btn');
+    function showCopied(){
+      var original = btn.textContent;
+      btn.textContent = 'コピーしました';
+      setTimeout(function(){ btn.textContent = original; }, 1800);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(showCopied);
+    } else {
+      var tmp = document.createElement('textarea');
+      tmp.value = text;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand('copy');
+      document.body.removeChild(tmp);
+      showCopied();
+    }
+  }
+</script>
+
+</body>
+</html>
